@@ -8,7 +8,7 @@ import { ActionPrefix, LocalPlayerInfo, ServerState } from "@/types";
 import { useRouter } from "next/navigation";
 import GameRuleButton from "@/components/GameRuleButton";
 import FullScreenButton from "@/components/FullScreenButton";
-import SoundFXButton from "@/components/MuteButton";
+import VolumeButton from "@/components/VolumeButton";
 
 const GameRoomPage = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
@@ -35,7 +35,7 @@ const GameRoomPage = ({ params }: { params: { id: string } }) => {
     // refresh: refreshServerState,
     mutate: mutateServerState,
   } = useRequest(gameStateFetcher, {
-    pollingInterval: 1000,
+    pollingInterval: 3000,
     onError: (error) => {
       toast({
         title: "房间读取失败",
@@ -70,7 +70,6 @@ const GameRoomPage = ({ params }: { params: { id: string } }) => {
   };
 
   const { run: act, loading: actLoading } = useRequest(actionExecutor, {
-    debounceWait: 800,
     manual: true,
     onSuccess: (result, params) => {
       mutateServerState(result);
@@ -110,7 +109,7 @@ const GameRoomPage = ({ params }: { params: { id: string } }) => {
         }}
       >
         <FullScreenButton />
-        <SoundFXButton />
+        <VolumeButton />
         <GameRuleButton />
       </Box>
     </>
